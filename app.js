@@ -9,6 +9,7 @@ const wrapAsync = require('./utils/wrapAsync.js')
 const ExpressError = require('./utils/ExpressError.js')//Custom error class
 const { listingSchema, reviewSchema } = require('./schema.js')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')
 const flash = require('connect-flash')
 
 const passport = require('passport')
@@ -33,7 +34,20 @@ app.use(express.json())
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname, "public")))
 
+const mongostore = MongoStore.create({
+    mongoUrl : process.env.MONGO_URL,
+    crypto :{
+        secret : "faraz the great",
+    },
+    touchAfter : 24 * 3600,//seconds
+})
+
+mongostore.on("error" , (err)=>{
+    console.log("ERR in MONGO SESSION STORE : " , err)
+})
+
 const sessionOptions = {
+    store : mongostore,//session info will be stored in atlas database.
     secret : "faraz the great",
     resave : false,
     saveUninitialized : true,
@@ -44,6 +58,8 @@ const sessionOptions = {
         httpOnly : true,
     }
 }
+
+
 app.use(session(sessionOptions))
 app.use(flash())
 
@@ -107,7 +123,7 @@ async function main() {
 
 
 app.get('/', (req, res) => {
-    res.send('HEllo!')
+    res.redirect('/listings')
 })
 
 //Test route to register user
