@@ -1,0 +1,17 @@
+<!-- success variable MUST be defined inside res.locals, even if it's value is null -->
+<!-- That's why we use application level middleware for creating variables in res.local -->
+<!-- success is an array, if length of array is greater than 0, then display alert -->
+<!-- Other wise empty array will get used -->
+<% if(success && success.length){%>
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+             <%=success%>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<%}%>
+    
+<% if(error && error.length){ %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%=error%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%}%> 
