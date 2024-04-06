@@ -98,9 +98,14 @@ body{
     margin-left: 0px;
 }
 
-#map{
+/* #map{
     height: 400px;
     width : 80vh;
+} */
+
+#map { height: 400px; }
+@media (max-width: 768px) {
+  #map { height: 300px; }
 }
 /* .my{
     border: #222222 solid 1px;
